@@ -11,7 +11,7 @@ const api_key = "RGAPI-8be9c778-adcd-4aea-81e7-795bb64cf04d"
 
 const axios = require('axios')
 
-
+app.use(express.static('./public'))
 
 const getData = async(summonerName) => {
     try{
@@ -25,8 +25,12 @@ const getData = async(summonerName) => {
 
 }
 
-app.get('/lol/query/:name', (req, res)=>{
-    const {name} = req.params
+app.get('/', (req, res) => {
+    res.status(200).end()
+})
+
+app.get('/lol/query', (req, res)=>{
+    const {name} = req.query
     async function run() {
         let response = await getData(name)
         if (response) {
