@@ -6,12 +6,15 @@ const PORT = process.env.PORT
 const path = require('path')
 
 const express = require('express')
+const pug = require('pug')
 const app = express()
-const api_key = "RGAPI-8be9c778-adcd-4aea-81e7-795bb64cf04d"
+const api_key = "RGAPI-dc83d539-8879-4991-9a47-698eeb8575f7"
 
 const axios = require('axios')
 
 app.use(express.static('./public'))
+app.set('views', './views')
+app.set('view engine', 'pug')
 
 const getData = async(summonerName) => {
     try{
@@ -24,24 +27,28 @@ const getData = async(summonerName) => {
     }
 
 }
+//http://ddragon.leagueoflegends.com/cdn/10.18.1/img/profileicon/24.png
+
+async function getSummonerInfo(req, res, next) {
+    const {name} = req.query
+    let response = await getData(name)
+    if (response) {
+        // res.send(`${response.name}: ${response.summonerLevel}`)
+        // console.log(response)
+        req.body = response
+    }
+    else {
+        res.status(404).send(`There does not exist a summoner with the name: "${name}"`)
+    }
+    next()
+}
 
 app.get('/', (req, res) => {
     res.status(200).end()
 })
 
-app.get('/lol/query', (req, res)=>{
-    const {name} = req.query
-    async function run() {
-        let response = await getData(name)
-        if (response) {
-            res.send(JSON.stringify(`${response.name}: ${response.summonerLevel}`))
-            console.log(response)
-        }
-        else {
-            return res.status(200).json({ success: true, data: [] })
-        }
-    }
-    run()
+app.get('/lol/query', getSummonerInfo, (req, res)=>{
+    res.render('league', {name: req.body.name, level: req.body.summonerLevel})
 })
 
 
