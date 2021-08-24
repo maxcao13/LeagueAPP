@@ -1,0 +1,33 @@
+doctype html
+//if lt IE 7
+//if IE 7
+//if IE 8
+//if gt IE 8
+head
+  meta(charset='utf-8')
+  meta(http-equiv='X-UA-Compatible' content='IE=edge')
+  title League APP
+  meta(name='description' content='')
+  meta(name='viewport' content='width=device-width, initial-scale=1')
+  link(rel='stylesheet' type='text/css' href='/styles.css')
+  link(rel='icon' href='favicon.png')
+//if lt IE 7
+  p.browsehappy
+    | You are using an 
+    strong outdated
+    |  browser. Please 
+    a(href='#') upgrade your browser
+    |  to improve your experience.
+.imgDiv
+  img(src='logo.png' alt='League of Legends logo' width='440' height='174')
+  h1 League of Legends Statistics App
+  h2 Enter your summoner name for stats!
+  form(action='/lol/query')
+    input#name(type='text' name='name' placeholder='Name')
+    input(type='submit' value='Submit')
+
+.freeChampions 
+    h1= list
+
+
+script(src='' async='' defer='')

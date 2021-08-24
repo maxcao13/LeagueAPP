@@ -8,7 +8,8 @@ const path = require('path')
 const express = require('express')
 const pug = require('pug')
 const app = express()
-const api_key = "RGAPI-dc83d539-8879-4991-9a47-698eeb8575f7"
+const api_key = "RGAPI-94d63258-447a-47b1-97b5-574bd7deead5"
+const { err_handle } = require("./public/methods")
 
 const axios = require('axios')
 
@@ -16,39 +17,40 @@ app.use(express.static('./public'))
 app.set('views', './views')
 app.set('view engine', 'pug')
 
-const getData = async(summonerName) => {
-    try{
-        let resp = await axios.get(`https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${summonerName}?api_key=${api_key}`)
-        return resp.data
-    }
-    catch (error) {
-        console.log(error);
-        return
-    }
-
-}
-//http://ddragon.leagueoflegends.com/cdn/10.18.1/img/profileicon/24.png
-
 async function getSummonerInfo(req, res, next) {
-    const {name} = req.query
-    let response = await getData(name)
-    if (response) {
-        // res.send(`${response.name}: ${response.summonerLevel}`)
-        // console.log(response)
-        req.body = response
+    try{
+        const {name} = req.query
+        let api_res = await axios.get(`https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${name}?api_key=${api_key}`)
+        req.body = api_res.data
+        console.log(req.body)
+
     }
-    else {
-        res.status(404).send(`There does not exist a summoner with the name: "${name}"`)
+    catch (e) {
+        err_handle(e, res)
+        return
     }
     next()
 }
 
-app.get('/', (req, res) => {
-    res.status(200).end()
+async function freeChamps(req, res, next) {
+    try {
+        let api_res = await axios.get(`https://na1.api.riotgames.com/lol/platform/v3/champion-rotations?api_key=${api_key}`)
+        req.body = api_res.data
+        console.log(req.body)
+    }
+    catch (e) {
+        err_handle(e, res)
+        return
+    }
+    next()
+}
+
+app.get('/', freeChamps, (req, res) => {
+    res.status(200).render('index', {list: req.body.freeChampionIds})
 })
 
 app.get('/lol/query', getSummonerInfo, (req, res)=>{
-    res.render('league', {name: req.body.name, level: req.body.summonerLevel})
+    res.status(200).render('league', {name: req.body.name, level: req.body.summonerLevel, icon: req.body.profileIconId})
 })
 
 
