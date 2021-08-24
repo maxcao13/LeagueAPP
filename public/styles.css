@@ -44,7 +44,26 @@ input[type=text] {
 
 .freeChampions {
     text-align: center;
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Helvetica';
 }
+
+.freeChampions img{
+    width: 90%;
+    height: 90%;
+}
+
+.column {
+    box-sizing: border-box;
+    float: left;
+    max-width: 20%;
+    height: auto;
+}
+
+/* Clearfix (clear floats) */
+.row::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
 
 /* #519D9E */
