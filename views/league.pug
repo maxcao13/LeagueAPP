@@ -3,6 +3,9 @@ doctype html
 //if IE 7
 //if IE 8
 //if gt IE 8
+
+- var PATCH = `11.16.1`;
+
 head
   meta(charset='utf-8')
   meta(http-equiv='X-UA-Compatible' content='IE=edge')
@@ -22,7 +25,7 @@ head
   img(src='/logo.png' alt='League of Legends logo' width='440' height='174')
   h1 League of Legends Statistics App
   h2 #{name}: #{level}
-  img(src=`http://ddragon.leagueoflegends.com/cdn/10.18.1/img/profileicon/${icon}.png` alt='summoner icon' width='200' height='200')
+  img(src=`http://ddragon.leagueoflegends.com/cdn/${PATCH}/img/profileicon/${icon}.png` alt='summoner icon' width='200' height='200')
   form(action='/')
     input(type='submit' value='Back')
 script(src='' async='' defer='')

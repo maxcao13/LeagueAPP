@@ -5,4 +5,12 @@ async function err_handle(e, res) {
     return
 }
 
-module.exports = {err_handle}
+function getChampionFromID(object, id) {
+    for (let [champ, data] of Object.entries(object)) {
+        if (Number(data.key) === id) {
+            return champ
+        } 
+    }
+}
+
+module.exports = {err_handle, getChampionFromID}

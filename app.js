@@ -2,6 +2,7 @@
 const dotenv = require('dotenv')
 dotenv.config()
 const PORT = process.env.PORT
+const PATCH = "11.16.1"
 
 const path = require('path')
 
@@ -9,9 +10,7 @@ const express = require('express')
 const pug = require('pug')
 const app = express()
 const api_key = "RGAPI-94d63258-447a-47b1-97b5-574bd7deead5"
-const { err_handle } = require("./public/methods")
-
-let champions = (require('./public/league_static/11.16.1/data/en_US/champion.json')).data;
+const { err_handle, getChampionFromID } = require("./public/methods")
 
 const axios = require('axios')
 
@@ -19,20 +18,15 @@ app.use(express.static('./public'))
 app.set('views', './views')
 app.set('view engine', 'pug')
 
-function getChampionFromID(object, id) {
-    for (let [champ,data] of Object.entries(object)) {
-        if (Number(data.key) === id) {
-            return [champ]
-        } 
-    }
-}
-
-// function getPathFromChampion(champ) {
-//     return `/public/league_static/img/champion/tiles/${champ}_0`
-// }
-
 async function getFreeChamps(idArray) {
-    return idArray.map(x => getChampionFromID(champions, x))
+    try {
+        let champ_response = (await axios.get(`http://ddragon.leagueoflegends.com/cdn/${PATCH}/data/en_US/champion.json`)).data.data
+        return idArray.map(x => getChampionFromID(champ_response, x))
+    }
+    catch (e) {
+        console.log(e)
+        return
+    }
 }
 
 async function getSummonerInfo(req, res, next) {

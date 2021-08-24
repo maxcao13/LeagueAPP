@@ -6,6 +6,13 @@ form {
     margin: auto;
 }
 
+html {
+    background-color: #9dc8c8;
+    background-image: linear-gradient(297deg, #9dc8c8 0%, #58c9b9 30%, #519d9e 66%, #d1b6e1 100%);
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+}
+
 input[type=button], input[type=submit], input[type=reset] {
     background-color: #D1B6E1;
     border: none;
@@ -18,7 +25,6 @@ input[type=button], input[type=submit], input[type=reset] {
 }
 
 input[type=text] {
-
     width: 50%;
     height: 40px;
     padding: 12px 36px;
@@ -38,6 +44,7 @@ input[type=text] {
 .imgDiv {
     /* border: 5px outset red;
     background-color: lightblue; */
+    padding-top: 3%;
     text-align: center;
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
@@ -47,15 +54,20 @@ input[type=text] {
     font-family: 'Helvetica';
 }
 
+.freeChampions h3{
+    padding-top: 10%;
+}
+
 .freeChampions img{
-    width: 90%;
-    height: 90%;
+    width: 80%;
+    height: 80%;
+    border-radius: 65%;
 }
 
 .column {
     box-sizing: border-box;
     float: left;
-    max-width: 20%;
+    max-width: 6.66%;
     height: auto;
 }
 
