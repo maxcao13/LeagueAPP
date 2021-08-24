@@ -18,15 +18,27 @@ app.use(express.static('./public'))
 app.set('views', './views')
 app.set('view engine', 'pug')
 
-async function getFreeChamps(idArray) {
+async function freeChamps(req, res, next) {
+    async function getFreeChamps(idArray) {
+        try {
+            let champ_response = (await axios.get(`http://ddragon.leagueoflegends.com/cdn/${PATCH}/data/en_US/champion.json`)).data.data
+            return idArray.map(x => getChampionFromID(champ_response, x))
+        }
+        catch (e) {
+            console.log(e)
+            return
+        }
+    }
+
     try {
-        let champ_response = (await axios.get(`http://ddragon.leagueoflegends.com/cdn/${PATCH}/data/en_US/champion.json`)).data.data
-        return idArray.map(x => getChampionFromID(champ_response, x))
+        let api_res = await axios.get(`https://na1.api.riotgames.com/lol/platform/v3/champion-rotations?api_key=${api_key}`)
+        req.body = await getFreeChamps(api_res.data.freeChampionIds)
     }
     catch (e) {
-        console.log(e)
+        err_handle(e, res)
         return
     }
+    next()
 }
 
 async function getSummonerInfo(req, res, next) {
@@ -43,19 +55,6 @@ async function getSummonerInfo(req, res, next) {
     }
     next()
 }
-
-async function freeChamps(req, res, next) {
-    try {
-        let api_res = await axios.get(`https://na1.api.riotgames.com/lol/platform/v3/champion-rotations?api_key=${api_key}`)
-        req.body = await getFreeChamps(api_res.data.freeChampionIds)
-    }
-    catch (e) {
-        err_handle(e, res)
-        return
-    }
-    next()
-}
-
 
 app.get('/', freeChamps, (req, res) => {
     res.status(200).render('index', {list: req.body})
