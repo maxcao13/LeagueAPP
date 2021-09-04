@@ -4,7 +4,6 @@ doctype html
 //if IE 8
 //if gt IE 8
 
-- var PATCH = `11.16.1`;
 - var TILE_PATH = `https://cdn.communitydragon.org/${PATCH}/champion/`
 
 head
@@ -15,6 +14,9 @@ head
     meta(name='viewport' content='width=device-width, initial-scale=1')
     link(rel='stylesheet' type='text/css' href='/styles.css')
     link(rel='icon' href='favicon.png')
+    script(type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js')
+    script(type='text/javascript' src='local.js')
+
 //if lt IE 7
   p.browsehappy
     | You are using an 
@@ -92,8 +94,3 @@ head
         .column
             h4= list[14]
             img(src=`${TILE_PATH}${list[14]}/tile` alt=list[14])
-    
-
-
-
-script(src='' async='' defer='')

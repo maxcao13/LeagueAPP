@@ -13,4 +13,8 @@ function getChampionFromID(object, id) {
     }
 }
 
-module.exports = {err_handle, getChampionFromID}
+function getWinrate(wins, losses) {
+    return (wins / (wins + losses)).toFixed(4)*100
+}
+
+module.exports = {err_handle, getChampionFromID, getWinrate}

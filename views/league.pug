@@ -4,7 +4,8 @@ doctype html
 //if IE 8
 //if gt IE 8
 
-- var PATCH = `11.16.1`;
+script(src='' async='' defer='')
+ 
 
 head
   meta(charset='utf-8')
@@ -14,6 +15,8 @@ head
   meta(name='viewport' content='width=device-width, initial-scale=1')
   link(rel='stylesheet' type='text/css' href='/styles.css')
   link(rel='icon' href='/favicon.png')
+  script(type='text/javascript' src='')
+
 //if lt IE 7
   p.browsehappy
     | You are using an 
@@ -24,8 +27,28 @@ head
 .imgDiv
   img(src='/logo.png' alt='League of Legends logo' width='440' height='174')
   h1 League of Legends Statistics App
+  
+
+.myContainer
   h2 #{name}: #{level}
-  img(src=`http://ddragon.leagueoflegends.com/cdn/${PATCH}/img/profileicon/${icon}.png` alt='summoner icon' width='200' height='200')
+  img(src=`http://ddragon.leagueoflegends.com/cdn/${PATCH}/img/profileicon/${icon}.png` alt='summoner icon' width='100' height='100')
+
+
+  .stats-container
+    h2 SOLO-DUO
+    h2 #{sdstats.tier} #{sdstats.rank}
+    h3 #{sdstats.leaguePoints}LP / #{sdstats.wins}W #{sdstats.losses}L
+    h3 WINRATE: #{sdWinrate}%
+
+
+
+
+    h2 FLEX
+    h2 #{flexstats.tier} #{flexstats.rank}
+    h3 #{flexstats.leaguePoints}LP / #{flexstats.wins}W #{flexstats.losses}L
+    h3 WINRATE: #{flexWinrate}%
+
+  
   form(action='/')
-    input(type='submit' value='Back')
-script(src='' async='' defer='')
+  input(type='submit' value='Back')
+

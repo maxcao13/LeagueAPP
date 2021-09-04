@@ -2,6 +2,7 @@
 const dotenv = require('dotenv')
 dotenv.config()
 const PORT = process.env.PORT
+const api_key = process.env.API_KEY
 const PATCH = "11.16.1"
 
 const path = require('path')
@@ -9,8 +10,8 @@ const path = require('path')
 const express = require('express')
 const pug = require('pug')
 const app = express()
-const api_key = "RGAPI-94d63258-447a-47b1-97b5-574bd7deead5"
-const { err_handle, getChampionFromID } = require("./public/methods")
+
+const { err_handle, getChampionFromID, getWinrate } = require("./public/methods")
 
 const axios = require('axios')
 
@@ -56,12 +57,30 @@ async function getSummonerInfo(req, res, next) {
     next()
 }
 
+async function getSummonerStats(req, res, next) {
+    try{
+        encryptedSummonerID = await req.body.id
+        let api_res = await axios.get(`https://na1.api.riotgames.com/lol/league/v4/entries/by-summoner/${encryptedSummonerID}?api_key=${api_key}`)
+        req.stats = api_res.data
+        console.log(req.stats)
+
+    }
+    catch (e) {
+        err_handle(e, res)
+        return
+    }
+    next()
+}
+
 app.get('/', freeChamps, (req, res) => {
-    res.status(200).render('index', {list: req.body})
+    res.status(200).render('index', {PATCH: `${PATCH}`, list: req.body})
 })
 
-app.get('/lol/query', getSummonerInfo, (req, res)=>{
-    res.status(200).render('league', {name: req.body.name, level: req.body.summonerLevel, icon: req.body.profileIconId})
+app.get('/lol/query', getSummonerInfo, getSummonerStats, (req, res)=>{
+    res.status(200).render('league', {PATCH: `${PATCH}`, name: req.body.name, level: req.body.summonerLevel, 
+    icon: req.body.profileIconId, flexstats: req.stats[0], sdstats: req.stats[1], 
+    flexWinrate: getWinrate(req.stats[0].wins, req.stats[0].losses),
+    sdWinrate: getWinrate(req.stats[1].wins, req.stats[1].losses)})
 })
 
 
