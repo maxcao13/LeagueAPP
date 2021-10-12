@@ -1,4 +1,4 @@
-# unnamed-node-project-1
+# MY LeagueAPP
 
 This is a personal project about the popular online MOBA game League of Legends developed by Riot Games. 
 This app is developed by me, Max Cao, for my own personal interests. The web app acts similar to the popular webpage OP.GG in that it also
