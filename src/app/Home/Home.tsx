@@ -4,7 +4,7 @@ export interface HomeProps {
 
 }
 
-const Home = ({} : HomeProps): JSX.Element => {
+export const Home = ({} : HomeProps): JSX.Element => {
     return <>
 
     </>

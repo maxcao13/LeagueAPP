@@ -1,10 +1,5 @@
-import * as React from 'react';
-import { Home } from '@app/Home';
+import React from "react";
+import ReactDOM from "react-dom";
+import { App } from './app/index';
 
-const App = (): JSX.Element => {
-    return <>
-        <Home />
-    </>
-}
-
-export { App };
+ReactDOM.render(<App />, document.getElementById("root") as HTMLElement);

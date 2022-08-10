@@ -11,7 +11,7 @@ const express = require('express')
 const pug = require('pug')
 const app = express()
 
-const { err_handle, getChampionFromID, getWinrate } = require("./public/methods")
+const { err_handle, getChampionFromID, getWinrate } = require("./methods")
 
 const axios = require('axios')
 
